@@ -20,20 +20,77 @@ pipeline {
             }
             post {
                 success {
-                    emailext attachLog: true,
-                    to: 'gaaaargi0809@gmail.com',
-                    subject: 'CI/CD Status - Test Stage Success',
-                    body: 'Unit and integration tests stage was successful.'
+                    emailext body: "Unit and integration tests stage was successful.",
+                              subject: "CI/CD Status - Test Stage Success",
+                              to: "gaaaargi0809@gmail.com",
+                              attachLog: true
                 }
                 failure {
-                    emailext attachLog: true,
-                    to: 'gaaaargi0809@gmail.com',
-                    subject: 'CI/CD Status - Test Stage Failure',
-                    body: 'Unit and integration tests stage failed. Please review the logs for more details.'
+                    emailext body: "Unit and integration tests stage failed. Please review the logs for more details.",
+                              subject: "CI/CD Status - Test Stage Failure",
+                              to: "gaaaargi0809@gmail.com",
+                              attachLog: true
                 }
             }
         }
         
-        // Remaining stages are similar, you can update them accordingly
+        stage('Stage 3: Code Analysis') {
+            steps {
+                // Integrate a code analysis tool like SonarQube
+                // Example command: sh 'sonar-scanner'
+                echo 'Running code analysis using SonarQube'
+                // Replace this echo command with the actual code analysis command
+            }
+        }
+        
+        stage('Stage 4: Security Scan') {
+            steps {
+                // Perform security scan using OWASP ZAP or other security scanning tools
+                // Example command: sh 'zap-cli --spider <target_url>'
+                echo 'Performing security scan using OWASP ZAP'
+                // Replace this echo command with the actual security scan command
+            }
+            post {
+                success {
+                    emailext body: "Security scan stage was successful.",
+                              subject: "CI/CD Status - Security Scan Stage Success",
+                              to: "gaaaargi0809@gmail.com",
+                              attachLog: true
+                }
+                failure {
+                    emailext body: "Security scan stage failed. Please review the logs for more details.",
+                              subject: "CI/CD Status - Security Scan Stage Failure",
+                              to: "gaaaargi0809@gmail.com",
+                              attachLog: true
+                }
+            }
+        }
+        
+        stage('Stage 5: Deploy to Staging') {
+            steps {
+                // Deploy the application to a staging server using AWS CLI or other deployment tools
+                // Example command: sh 'aws ec2 deploy <staging_instance_id>'
+                echo 'Deploying the application to staging server using AWS CLI'
+                // Replace this echo command with the actual deployment command
+            }
+        }
+        
+        stage('Stage 6: Integration Tests on Staging') {
+            steps {
+                // Run integration tests on the staging environment
+                // Example command: sh 'mvn integration-test'
+                echo 'Running integration tests on staging environment'
+                // Replace this echo command with the actual integration test command
+            }
+        }
+        
+        stage('Stage 7: Deploy to Production') {
+            steps {
+                // Deploy the application to a production server using AWS CLI or other deployment tools
+                // Example command: sh 'aws ec2 deploy <production_instance_id>'
+                echo 'Deploying the application to production server using AWS CLI'
+                // Replace this echo command with the actual deployment command
+            }
+        }
     }
 }
