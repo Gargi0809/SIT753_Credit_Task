@@ -61,15 +61,13 @@ pipeline {
     
     post {
         success {
-            emailext attachmentsPattern: '**/*.log',
-                     body: 'Pipeline ${currentBuild.result}',
+                     body: 'Pipeline build was successful',
                      subject: 'Pipeline Notification - Success',
                      to: 'gaaaargi0809@gmail.com'
         }
         failure {
-            emailext attachmentsPattern: '**/*.log',
-                     body: 'Pipeline ${currentBuild.result}',
-                     subject: 'Pipeline Notification - Failure',
+                     body: 'Pipeline build was failed',
+                     subject: 'Pipeline Notification - Failed',
                      to: 'gaaaargi0809@gmail.com'
         }
     }
