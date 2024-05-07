@@ -21,13 +21,15 @@ pipeline {
                     emailext attachLog: true,
                     to: 'gaaaargi0809@gmail.com',
                     subject: 'Continuous Integration and Deployment Status Notification - Test Stage Success',
-                    body: 'Unit and integration tests stage was successful.'
+                    body: 'Unit and integration tests stage was successful.',
+                    attachmentsPattern: '${BUILD_LOG, maxLines=9999}'
                 }
                 failure {
-                     emailext attachLog: true,
-                     to: 'gaaaargi0809@gmail.com',
-                     subject: 'Continuous Integration and Deployment Status Notification - Test Stage Failure',
-                     body: 'Unit and integration tests stage failed. Please review the logs for more details.'
+                    emailext attachLog: true,
+                    to: 'gaaaargi0809@gmail.com',
+                    subject: 'Continuous Integration and Deployment Status Notification - Test Stage Failure',
+                    body: 'Unit and integration tests stage failed. Please review the logs for more details.',
+                    attachmentsPattern: '${BUILD_LOG, maxLines=9999}'
                 }
             }
         }
@@ -51,13 +53,15 @@ pipeline {
                     emailext attachLog: true,
                     to: 'gaaaargi0809@gmail.com',
                     subject: 'Continuous Integration and Deployment Status Notification - Security Scan Stage Success',
-                    body: 'Security scan stage was successful.'
+                    body: 'Security scan stage was successful.',
+                    attachmentsPattern: '${BUILD_LOG, maxLines=9999}'
                 }
                 failure {
-                     emailext attachLog: true,
-                     to: 'gaaaargi0809@gmail.com',
-                     subject: 'Continuous Integration and Deployment Status Notification - Security Scan Stage Failure',
-                     body: 'Security scan stage failed. Please review the logs for more details.'
+                    emailext attachLog: true,
+                    to: 'gaaaargi0809@gmail.com',
+                    subject: 'Continuous Integration and Deployment Status Notification - Security Scan Stage Failure',
+                    body: 'Security scan stage failed. Please review the logs for more details.',
+                    attachmentsPattern: '${BUILD_LOG, maxLines=9999}'
                 }
             }
         }
