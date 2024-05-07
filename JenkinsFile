@@ -2,59 +2,59 @@ pipeline {
     agent any
     
     stages {
-        stage('Build') {
+        stage('Stage 1: Build') {
             steps {
                 // Build the code using Maven
-                echo 'Building the code using Maven'
                 // Example command: sh 'mvn clean package'
+                echo 'Building the code using Maven'
             }
         }
         
-        stage('Unit and Integration Tests') {
+        stage('Stage 2: Unit and Integration Tests') {
             steps {
                 // Run unit tests using JUnit and integration tests using Selenium
-                echo 'Running unit and integration tests'
                 // Example command: sh 'mvn test'
+                echo 'Running unit tests using JUnit and integration tests using Selenium'
             }
         }
         
-        stage('Code Analysis') {
+        stage('Stage 3: Code Analysis') {
             steps {
                 // Integrate a code analysis tool like SonarQube
-                echo 'Running code analysis using SonarQube'
                 // Example command: sh 'sonar-scanner'
+                echo 'Running code analysis using SonarQube'
             }
         }
         
-        stage('Security Scan') {
+        stage('Stage 4: Security Scan') {
             steps {
                 // Perform security scan using OWASP ZAP or other security scanning tools
-                echo 'Performing security scan using OWASP ZAP'
                 // Example command: sh 'zap-cli --spider <target_url>'
+                echo 'Performing security scan using OWASP ZAP'
             }
         }
         
-        stage('Deploy to Staging') {
+        stage('Stage 5: Deploy to Staging') {
             steps {
                 // Deploy the application to a staging server using AWS CLI or other deployment tools
-                echo 'Deploying the application to staging server using AWS CLI'
                 // Example command: sh 'aws ec2 deploy <staging_instance_id>'
+                echo 'Deploying the application to staging server using AWS CLI'
             }
         }
         
-        stage('Integration Tests on Staging') {
+        stage('Stage 6: Integration Tests on Staging') {
             steps {
                 // Run integration tests on the staging environment
-                echo 'Running integration tests on staging environment'
                 // Example command: sh 'mvn integration-test'
+                echo 'Running integration tests on staging environment'
             }
         }
         
-        stage('Deploy to Production') {
+        stage('Stage 7: Deploy to Production') {
             steps {
                 // Deploy the application to a production server using AWS CLI or other deployment tools
-                echo 'Deploying the application to production server using AWS CLI'
                 // Example command: sh 'aws ec2 deploy <production_instance_id>'
+                echo 'Deploying the application to production server using AWS CLI'
             }
         }
     }
@@ -62,13 +62,13 @@ pipeline {
     post {
         success {
             mail to:'gaaaargi0809@gmail.com',
-            subject: 'Pipeline Notification - Success',
-            body: 'Pipeline build successful...'
+            subject: 'Continuous Integration and Deployment Status Notification',
+            body: 'Congratulations...The build process was successful. Your changes have been successfully integrated and deployed.'
         }
         failure {
              mail to: 'gaaaargi0809@gmail.com',
-             subject: 'Pipeline Notification - Failure',
-             body: 'Pipeline build failed...'
+             subject: 'Continuous Integration and Deployment Status Notification',
+             body: 'Build Failed.....Unfortunately, the build process encountered some issues and failed. Please review the logs for more details.'
         }
     }
 }
