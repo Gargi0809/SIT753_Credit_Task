@@ -103,13 +103,11 @@ pipeline {
     }
     
     post {
-        always {
-            // Send email notification with attachment
-            emailext attachmentsPattern: '**/*.log',
-                     body: 'Pipeline ${currentBuild.result}',
-                     subject: 'Pipeline Notification',
-                     to: 'gaaaargi0809@gmail.com'
-        }
+    always {
+        emailext attachLog: true,
+                 body: 'Pipeline ${currentBuild.result}',
+                 subject: 'Pipeline Notification',
+                 to: 'gaaaargi0809@gmail.com'
     }
 }
 
