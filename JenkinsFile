@@ -20,16 +20,16 @@ pipeline {
             }
             post {
                 success {
-                    emailext subject: "CI/CD Status - Test Stage Success",
-                             body: "Unit and integration tests stage was successful.",
-                             to: "gaaaargi0809@gmail.com",
-                             attachLog:true
+                    mail to: "gaaaargi0809@gmail.com",
+                         subject: "CI/CD Status - Test Stage Success",
+                         body: "Unit and integration tests stage was successful.",
+                         attachLog: true
                 }
                 failure {
-                    emailext body: "Unit and integration tests stage failed. Please review the logs for more details.",
-                              subject: "CI/CD Status - Test Stage Failure",
-                              to: "gaaaargi0809@gmail.com",
-                              attachLog:true
+                    mail to: "gaaaargi0809@gmail.com",
+                         subject: "CI/CD Status - Test Stage Failure",
+                         body: "Unit and integration tests stage failed. Please review the logs for more details.",
+                         attachLog: true
                 }
             }
         }
@@ -52,16 +52,16 @@ pipeline {
             }
             post {
                 success {
-                    emailext body: "Security scan stage was successful.",
-                              subject: "CI/CD Status - Security Scan Stage Success",
-                              to: "gaaaargi0809@gmail.com",
-                              attachLog: true
+                    mail to: "gaaaargi0809@gmail.com",
+                         subject: "CI/CD Status - Security Scan Stage Success",
+                         body: "Security scan stage was successful.",
+                         attachLog: true
                 }
                 failure {
-                    emailext body: "Security scan stage failed. Please review the logs for more details.",
-                              subject: "CI/CD Status - Security Scan Stage Failure",
-                              to: "gaaaargi0809@gmail.com",
-                              attachLog: true
+                    mail to: "gaaaargi0809@gmail.com",
+                         subject: "CI/CD Status - Security Scan Stage Failure",
+                         body: "Security scan stage failed. Please review the logs for more details.",
+                         attachLog: true
                 }
             }
         }
