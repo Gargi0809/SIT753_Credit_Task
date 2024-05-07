@@ -2,65 +2,107 @@ pipeline {
     agent any
     
     stages {
-        stage('Build') {
+        stage('Stage 1: Build') {
             steps {
-                // Use Maven to build the code
-                echo 'Building the code using Maven...'
+                // Build the code using Maven
+                // Example command: sh 'mvn clean package'
+                echo 'Building the code using Maven'
+                // Replace this echo command with the actual build command
             }
         }
-        stage('Unit and Integration Tests') {
+        
+        stage('Stage 2: Unit and Integration Tests') {
             steps {
-                // Use JUnit and Selenium for unit and integration tests
-                echo 'Running unit tests using JUnit...'
-                echo 'Running integration tests using Selenium...'
+                // Run unit tests using JUnit and integration tests using Selenium
+                // Example command: sh 'mvn test'
+                echo 'Running unit tests using JUnit and integration tests using Selenium'
+                // Replace this echo command with the actual test command
+            }
+            post {
+                success {
+                    script {
+                        emailext subject: "CI/CD Status - Test Stage Success",
+                                  body: "Unit and integration tests stage was successful.",
+                                  to: "gaaaargi0809@gmail.com",
+                                  attachmentsPattern: "${BUILD_LOG}",
+                                  mimeType: 'text/plain'
+                    }
+                }
+                failure {
+                    script {
+                        emailext subject: "CI/CD Status - Test Stage Failure",
+                                  body: "Unit and integration tests stage failed. Please review the logs for more details.",
+                                  to: "gaaaargi0809@gmail.com",
+                                  attachmentsPattern: "${BUILD_LOG}",
+                                  mimeType: 'text/plain'
+                    }
+                }
             }
         }
-        stage('Code Analysis') {
+        
+        stage('Stage 3: Code Analysis') {
             steps {
-                // Use SonarQube for code analysis
-                echo 'Analyzing code using SonarQube...'
+                // Integrate a code analysis tool like SonarQube
+                // Example command: sh 'sonar-scanner'
+                echo 'Running code analysis using SonarQube'
+                // Replace this echo command with the actual code analysis command
             }
         }
-        stage('Security Scan') {
+        
+        stage('Stage 4: Security Scan') {
             steps {
-                // Use OWASP ZAP for security scan
-                echo 'Scanning code for security vulnerabilities using OWASP ZAP...'
+                // Perform security scan using OWASP ZAP or other security scanning tools
+                // Example command: sh 'zap-cli --spider <target_url>'
+                echo 'Performing security scan using OWASP ZAP'
+                // Replace this echo command with the actual security scan command
+            }
+            post {
+                success {
+                    script {
+                        emailext subject: "CI/CD Status - Security Scan Stage Success",
+                                  body: "Security scan stage was successful.",
+                                  to: "gaaaargi0809@gmail.com",
+                                  attachmentsPattern: "${BUILD_LOG}",
+                                  mimeType: 'text/plain'
+                    }
+                }
+                failure {
+                    script {
+                        emailext subject: "CI/CD Status - Security Scan Stage Failure",
+                                  body: "Security scan stage failed. Please review the logs for more details.",
+                                  to: "gaaaargi0809@gmail.com",
+                                  attachmentsPattern: "${BUILD_LOG}",
+                                  mimeType: 'text/plain'
+                    }
+                }
             }
         }
-        stage('Deploy to Staging') {
+        
+        stage('Stage 5: Deploy to Staging') {
             steps {
-                // Use AWS CLI to deploy to staging
-                echo 'Deploying application to staging server using AWS CLI...'
+                // Deploy the application to a staging server using AWS CLI or other deployment tools
+                // Example command: sh 'aws ec2 deploy <staging_instance_id>'
+                echo 'Deploying the application to staging server using AWS CLI'
+                // Replace this echo command with the actual deployment command
             }
         }
-        stage('Integration Tests on Staging') {
+        
+        stage('Stage 6: Integration Tests on Staging') {
             steps {
-                // Use Selenium for integration tests on staging
-                echo 'Running integration tests on staging environment using Selenium...'
+                // Run integration tests on the staging environment
+                // Example command: sh 'mvn integration-test'
+                echo 'Running integration tests on staging environment'
+                // Replace this echo command with the actual integration test command
             }
         }
-        stage('Deploy to Production') {
+        
+        stage('Stage 7: Deploy to Production') {
             steps {
-                // Use AWS CLI to deploy to production
-                echo 'Deploying application to production server using AWS CLI...'
+                // Deploy the application to a production server using AWS CLI or other deployment tools
+                // Example command: sh 'aws ec2 deploy <production_instance_id>'
+                echo 'Deploying the application to production server using AWS CLI'
+                // Replace this echo command with the actual deployment command
             }
-        }
-    }
-    
-    post {
-        success {
-            // Send notification email with success status and logs attachment
-            emailext body: "Pipeline passed successfully",
-                subject: "Pipeline Success",
-                attachmentsPattern: '**/*.log',
-                to: "gaaaargi0809@gmail.com"
-        }
-        failure {
-            // Send notification email with failure status and logs attachment
-            emailext body: "Pipeline failed. Please check the logs for details.",
-                subject: "Pipeline Failure",
-                attachmentsPattern: '**/*.log',
-                to: "gaaaargi0809@gmail.com"
         }
     }
 }
