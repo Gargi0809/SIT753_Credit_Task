@@ -111,11 +111,11 @@ pipeline {
                      to: 'gaaaargi0809@gmail.com'
         }
     }
-    
-    // Define sendNotification function within the pipeline block
-    def sendNotification(stage, status) {
-        emailext body: "Stage: $stage\nStatus: $status",
-                 subject: "Notification - $stage $status",
-                 to: 'gaaaargi0809@gmail.com'
-    }
+}
+
+// Define sendNotification function outside the pipeline block
+def sendNotification(stage, status) {
+    emailext body: "Stage: $stage\nStatus: $status",
+             subject: "Notification - $stage $status",
+             to: 'gaaaargi0809@gmail.com'
 }
