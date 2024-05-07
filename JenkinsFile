@@ -22,7 +22,7 @@ pipeline {
                 success {
                     emailext subject: "CI/CD Status - Test Stage Success",
                              body: "Unit and integration tests stage was successful.",
-                             mail to: "gaaaargi0809@gmail.com",
+                             to: "gaaaargi0809@gmail.com",
                              attachLog:true
                 }
                 failure {
