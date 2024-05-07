@@ -20,16 +20,16 @@ pipeline {
             }
             post {
                 success {
-                    emailext body: "Unit and integration tests stage was successful.",
-                              subject: "CI/CD Status - Test Stage Success",
-                              to: "gaaaargi0809@gmail.com",
-                              attachLog: true
+                    emailext subject: "CI/CD Status - Test Stage Success",
+                             body: "Unit and integration tests stage was successful.",
+                             mail to: "gaaaargi0809@gmail.com",
+                             attachLog:true
                 }
                 failure {
                     emailext body: "Unit and integration tests stage failed. Please review the logs for more details.",
                               subject: "CI/CD Status - Test Stage Failure",
                               to: "gaaaargi0809@gmail.com",
-                              attachLog: true
+                              attachLog:true
                 }
             }
         }
