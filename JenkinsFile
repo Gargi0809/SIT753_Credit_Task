@@ -112,6 +112,7 @@ pipeline {
         }
     }
     
+    // Define sendNotification function within the pipeline block
     def sendNotification(stage, status) {
         emailext body: "Stage: $stage\nStatus: $status",
                  subject: "Notification - $stage $status",
