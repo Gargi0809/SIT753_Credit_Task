@@ -1,57 +1,66 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Build') {
             steps {
                 // Use Maven to build the code
+                echo 'Building the code using Maven...'
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                // Use JUnit for unit tests
-                // Use a tool like Selenium for integration tests
+                // Use JUnit and Selenium for unit and integration tests
+                echo 'Running unit tests using JUnit...'
+                echo 'Running integration tests using Selenium...'
             }
         }
         stage('Code Analysis') {
             steps {
-                // Use tools like SonarQube or Checkstyle for code analysis
+                // Use SonarQube for code analysis
+                echo 'Analyzing code using SonarQube...'
             }
         }
         stage('Security Scan') {
             steps {
-                // Use tools like OWASP Dependency-Check or SonarQube for security scanning
+                // Use OWASP ZAP for security scan
+                echo 'Scanning code for security vulnerabilities using OWASP ZAP...'
             }
         }
         stage('Deploy to Staging') {
             steps {
-                // Deploy to a staging server (e.g., AWS EC2) using tools like AWS CLI or Jenkins SSH plugin
+                // Use AWS CLI to deploy to staging
+                echo 'Deploying application to staging server using AWS CLI...'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                // Run integration tests on the staging environment
+                // Use Selenium for integration tests on staging
+                echo 'Running integration tests on staging environment using Selenium...'
             }
         }
         stage('Deploy to Production') {
             steps {
-                // Deploy to a production server (e.g., AWS EC2) using tools like AWS CLI or Jenkins SSH plugin
+                // Use AWS CLI to deploy to production
+                echo 'Deploying application to production server using AWS CLI...'
             }
         }
     }
-
+    
     post {
         success {
-            emailext body: "Pipeline succeeded. See attached logs.",
-                    subject: "Pipeline Success",
-                    to: "gaaaargi0809@gmail.com",
-                    attachLog: true
+            // Send notification email with success status and logs attachment
+            emailext body: "Pipeline passed successfully",
+                subject: "Pipeline Success",
+                attachmentsPattern: '**/*.log',
+                to: "gaaaargi0809@gmail.com"
         }
         failure {
-            emailext body: "Pipeline failed. See attached logs.",
-                    subject: "Pipeline Failure",
-                    to: "gaaaargi0809@gmail.com",
-                    attachLog: true
+            // Send notification email with failure status and logs attachment
+            emailext body: "Pipeline failed. Please check the logs for details.",
+                subject: "Pipeline Failure",
+                attachmentsPattern: '**/*.log',
+                to: "gaaaargi0809@gmail.com"
         }
     }
 }
