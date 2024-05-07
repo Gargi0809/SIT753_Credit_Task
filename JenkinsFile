@@ -1,0 +1,120 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                // Build the code using Maven
+                sh 'mvn clean package'
+            }
+            post {
+                success {
+                    echo 'Build successful'
+                }
+            }
+        }
+        
+        stage('Unit and Integration Tests') {
+            steps {
+                // Run unit tests using JUnit and integration tests using Selenium
+                sh 'mvn test'
+            }
+            post {
+                success {
+                    echo 'Tests passed'
+                    sendNotification('Unit and Integration Tests', currentBuild.result)
+                }
+                failure {
+                    echo 'Tests failed'
+                    sendNotification('Unit and Integration Tests', currentBuild.result)
+                }
+            }
+        }
+        
+        stage('Code Analysis') {
+            steps {
+                // Integrate a code analysis tool like SonarQube
+                // Use SonarQube scanner to analyze the code
+                // Example command: sonar-scanner
+                // SonarQube server configuration should be done in Jenkins
+                sh 'sonar-scanner'
+            }
+            post {
+                success {
+                    echo 'Code analysis passed'
+                }
+            }
+        }
+        
+        stage('Security Scan') {
+            steps {
+                // Perform security scan using OWASP ZAP
+                // Example command: zap-cli --spider <target_url>
+                sh 'zap-cli --spider <target_url>'
+            }
+            post {
+                success {
+                    echo 'Security scan passed'
+                    sendNotification('Security Scan', 'SUCCESS')
+                }
+                failure {
+                    echo 'Security scan failed'
+                    sendNotification('Security Scan', 'FAILURE')
+                }
+            }
+        }
+        
+        stage('Deploy to Staging') {
+            steps {
+                // Deploy the application to a staging server using AWS CLI
+                sh 'aws ec2 deploy <staging_instance_id>'
+            }
+            post {
+                success {
+                    echo 'Application deployed to staging server'
+                }
+            }
+        }
+        
+        stage('Integration Tests on Staging') {
+            steps {
+                // Run integration tests on the staging environment
+                // This could involve running automated tests using Selenium or API testing tools
+                sh 'mvn integration-test'
+            }
+            post {
+                success {
+                    echo 'Integration tests on staging passed'
+                }
+            }
+        }
+        
+        stage('Deploy to Production') {
+            steps {
+                // Deploy the application to a production server using AWS CLI
+                sh 'aws ec2 deploy <production_instance_id>'
+            }
+            post {
+                success {
+                    echo 'Application deployed to production server'
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Send email notification with attachment
+            emailext attachmentsPattern: '**/*.log',
+                     body: 'Pipeline ${currentBuild.result}',
+                     subject: 'Pipeline Notification',
+                     to: 'gaaaargi0809@gmail.com'
+        }
+    }
+    
+    def sendNotification(stage, status) {
+        emailext body: "Stage: $stage\nStatus: $status",
+                 subject: "Notification - $stage $status",
+                 to: 'gaaaargi0809@gmail.com'
+    }
+}
