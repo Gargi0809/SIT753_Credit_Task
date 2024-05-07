@@ -1,96 +1,57 @@
 pipeline {
     agent any
-    
+
     stages {
-        stage('Stage 1: Build') {
+        stage('Build') {
             steps {
-                // Build the code using Maven
-                // Example command: sh 'mvn clean package'
-                echo 'Building the code using Maven'
-                // Replace this echo command with the actual build command
+                // Use Maven to build the code
             }
         }
-        
-        stage('Stage 2: Unit and Integration Tests') {
+        stage('Unit and Integration Tests') {
             steps {
-                // Run unit tests using JUnit and integration tests using Selenium
-                // Example command: sh 'mvn test'
-                echo 'Running unit tests using JUnit and integration tests using Selenium'
-                // Replace this echo command with the actual test command
-            }
-            post {
-                success {
-                    mail to: "gaaaargi0809@gmail.com",
-                         subject: "CI/CD Status - Test Stage Success",
-                         body: "Unit and integration tests stage was successful.\n\n${currentBuild.rawBuild.getLog(9999)}",
-                         mimeType: 'text/plain'
-                }
-                failure {
-                    mail to: "gaaaargi0809@gmail.com",
-                         subject: "CI/CD Status - Test Stage Failure",
-                         body: "Unit and integration tests stage failed. Please review the logs for more details.\n\n${currentBuild.rawBuild.getLog(9999)}",
-                         mimeType: 'text/plain'
-                }
+                // Use JUnit for unit tests
+                // Use a tool like Selenium for integration tests
             }
         }
-        
-        stage('Stage 3: Code Analysis') {
+        stage('Code Analysis') {
             steps {
-                // Integrate a code analysis tool like SonarQube
-                // Example command: sh 'sonar-scanner'
-                echo 'Running code analysis using SonarQube'
-                // Replace this echo command with the actual code analysis command
+                // Use tools like SonarQube or Checkstyle for code analysis
             }
         }
-        
-        stage('Stage 4: Security Scan') {
+        stage('Security Scan') {
             steps {
-                // Perform security scan using OWASP ZAP or other security scanning tools
-                // Example command: sh 'zap-cli --spider <target_url>'
-                echo 'Performing security scan using OWASP ZAP'
-                // Replace this echo command with the actual security scan command
-            }
-            post {
-                success {
-                    mail to: "gaaaargi0809@gmail.com",
-                         subject: "CI/CD Status - Security Scan Stage Success",
-                         body: "Security scan stage was successful.\n\n${currentBuild.rawBuild.getLog(9999)}",
-                         mimeType: 'text/plain'
-                }
-                failure {
-                    mail to: "gaaaargi0809@gmail.com",
-                         subject: "CI/CD Status - Security Scan Stage Failure",
-                         body: "Security scan stage failed. Please review the logs for more details.\n\n${currentBuild.rawBuild.getLog(9999)}",
-                         mimeType: 'text/plain'
-                }
+                // Use tools like OWASP Dependency-Check or SonarQube for security scanning
             }
         }
-        
-        stage('Stage 5: Deploy to Staging') {
+        stage('Deploy to Staging') {
             steps {
-                // Deploy the application to a staging server using AWS CLI or other deployment tools
-                // Example command: sh 'aws ec2 deploy <staging_instance_id>'
-                echo 'Deploying the application to staging server using AWS CLI'
-                // Replace this echo command with the actual deployment command
+                // Deploy to a staging server (e.g., AWS EC2) using tools like AWS CLI or Jenkins SSH plugin
             }
         }
-        
-        stage('Stage 6: Integration Tests on Staging') {
+        stage('Integration Tests on Staging') {
             steps {
                 // Run integration tests on the staging environment
-                // Example command: sh 'mvn integration-test'
-                echo 'Running integration tests on staging environment'
-                // Replace this echo command with the actual integration test command
             }
         }
-        
-        stage('Stage 7: Deploy to Production') {
+        stage('Deploy to Production') {
             steps {
-                // Deploy the application to a production server using AWS CLI or other deployment tools
-                // Example command: sh 'aws ec2 deploy <production_instance_id>'
-                echo 'Deploying the application to production server using AWS CLI'
-                // Replace this echo command with the actual deployment command
+                // Deploy to a production server (e.g., AWS EC2) using tools like AWS CLI or Jenkins SSH plugin
             }
+        }
+    }
+
+    post {
+        success {
+            emailext body: "Pipeline succeeded. See attached logs.",
+                    subject: "Pipeline Success",
+                    to: "gaaaargi0809@gmail.com",
+                    attachLog: true
+        }
+        failure {
+            emailext body: "Pipeline failed. See attached logs.",
+                    subject: "Pipeline Failure",
+                    to: "gaaaargi0809@gmail.com",
+                    attachLog: true
         }
     }
 }
