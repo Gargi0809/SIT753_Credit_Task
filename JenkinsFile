@@ -7,6 +7,7 @@ pipeline {
                 // Build the code using Maven
                 // Example command: sh 'mvn clean package'
                 echo 'Building the code using Maven'
+                // Replace this echo command with the actual build command
             }
         }
         
@@ -15,21 +16,26 @@ pipeline {
                 // Run unit tests using JUnit and integration tests using Selenium
                 // Example command: sh 'mvn test'
                 echo 'Running unit tests using JUnit and integration tests using Selenium'
+                // Replace this echo command with the actual test command
             }
             post {
                 success {
-                    emailext attachLog: true,
-                    to: 'gaaaargi0809@gmail.com',
-                    subject: 'Continuous Integration and Deployment Status Notification - Test Stage Success',
-                    body: 'Unit and integration tests stage was successful.',
-                    attachmentsPattern: '${BUILD_LOG, maxLines=9999}'
+                    script {
+                        emailext subject: "CI/CD Status - Test Stage Success",
+                                  body: "Unit and integration tests stage was successful.",
+                                  to: "gaaaargi0809@gmail.com",
+                                  attachmentsPattern: "${BUILD_LOG}",
+                                  mimeType: 'text/plain'
+                    }
                 }
                 failure {
-                    emailext attachLog: true,
-                    to: 'gaaaargi0809@gmail.com',
-                    subject: 'Continuous Integration and Deployment Status Notification - Test Stage Failure',
-                    body: 'Unit and integration tests stage failed. Please review the logs for more details.',
-                    attachmentsPattern: '${BUILD_LOG, maxLines=9999}'
+                    script {
+                        emailext subject: "CI/CD Status - Test Stage Failure",
+                                  body: "Unit and integration tests stage failed. Please review the logs for more details.",
+                                  to: "gaaaargi0809@gmail.com",
+                                  attachmentsPattern: "${BUILD_LOG}",
+                                  mimeType: 'text/plain'
+                    }
                 }
             }
         }
@@ -39,6 +45,7 @@ pipeline {
                 // Integrate a code analysis tool like SonarQube
                 // Example command: sh 'sonar-scanner'
                 echo 'Running code analysis using SonarQube'
+                // Replace this echo command with the actual code analysis command
             }
         }
         
@@ -47,21 +54,26 @@ pipeline {
                 // Perform security scan using OWASP ZAP or other security scanning tools
                 // Example command: sh 'zap-cli --spider <target_url>'
                 echo 'Performing security scan using OWASP ZAP'
+                // Replace this echo command with the actual security scan command
             }
             post {
                 success {
-                    emailext attachLog: true,
-                    to: 'gaaaargi0809@gmail.com',
-                    subject: 'Continuous Integration and Deployment Status Notification - Security Scan Stage Success',
-                    body: 'Security scan stage was successful.',
-                    attachmentsPattern: '${BUILD_LOG, maxLines=9999}'
+                    script {
+                        emailext subject: "CI/CD Status - Security Scan Stage Success",
+                                  body: "Security scan stage was successful.",
+                                  to: "gaaaargi0809@gmail.com",
+                                  attachmentsPattern: "${BUILD_LOG}",
+                                  mimeType: 'text/plain'
+                    }
                 }
                 failure {
-                    emailext attachLog: true,
-                    to: 'gaaaargi0809@gmail.com',
-                    subject: 'Continuous Integration and Deployment Status Notification - Security Scan Stage Failure',
-                    body: 'Security scan stage failed. Please review the logs for more details.',
-                    attachmentsPattern: '${BUILD_LOG, maxLines=9999}'
+                    script {
+                        emailext subject: "CI/CD Status - Security Scan Stage Failure",
+                                  body: "Security scan stage failed. Please review the logs for more details.",
+                                  to: "gaaaargi0809@gmail.com",
+                                  attachmentsPattern: "${BUILD_LOG}",
+                                  mimeType: 'text/plain'
+                    }
                 }
             }
         }
@@ -71,6 +83,7 @@ pipeline {
                 // Deploy the application to a staging server using AWS CLI or other deployment tools
                 // Example command: sh 'aws ec2 deploy <staging_instance_id>'
                 echo 'Deploying the application to staging server using AWS CLI'
+                // Replace this echo command with the actual deployment command
             }
         }
         
@@ -79,6 +92,7 @@ pipeline {
                 // Run integration tests on the staging environment
                 // Example command: sh 'mvn integration-test'
                 echo 'Running integration tests on staging environment'
+                // Replace this echo command with the actual integration test command
             }
         }
         
@@ -87,6 +101,7 @@ pipeline {
                 // Deploy the application to a production server using AWS CLI or other deployment tools
                 // Example command: sh 'aws ec2 deploy <production_instance_id>'
                 echo 'Deploying the application to production server using AWS CLI'
+                // Replace this echo command with the actual deployment command
             }
         }
     }
