@@ -16,6 +16,20 @@ pipeline {
                 // Example command: sh 'mvn test'
                 echo 'Running unit tests using JUnit and integration tests using Selenium'
             }
+            post {
+                success {
+                    mail to:'gaaaargi0809@gmail.com',
+                    subject: 'Continuous Integration and Deployment Status Notification - Test Stage Success',
+                    body: 'Unit and integration tests stage was successful.',
+                    attachmentsPattern: 'logs/*.log'
+                }
+                failure {
+                     mail to: 'gaaaargi0809@gmail.com',
+                     subject: 'Continuous Integration and Deployment Status Notification - Test Stage Failure',
+                     body: 'Unit and integration tests stage failed. Please review the logs for more details.',
+                     attachmentsPattern: 'logs/*.log'
+                }
+            }
         }
         
         stage('Stage 3: Code Analysis') {
@@ -31,6 +45,20 @@ pipeline {
                 // Perform security scan using OWASP ZAP or other security scanning tools
                 // Example command: sh 'zap-cli --spider <target_url>'
                 echo 'Performing security scan using OWASP ZAP'
+            }
+            post {
+                success {
+                    mail to:'gaaaargi0809@gmail.com',
+                    subject: 'Continuous Integration and Deployment Status Notification - Security Scan Stage Success',
+                    body: 'Security scan stage was successful.',
+                    attachmentsPattern: 'logs/*.log'
+                }
+                failure {
+                     mail to: 'gaaaargi0809@gmail.com',
+                     subject: 'Continuous Integration and Deployment Status Notification - Security Scan Stage Failure',
+                     body: 'Security scan stage failed. Please review the logs for more details.',
+                     attachmentsPattern: 'logs/*.log'
+                }
             }
         }
         
@@ -63,12 +91,14 @@ pipeline {
         success {
             mail to:'gaaaargi0809@gmail.com',
             subject: 'Continuous Integration and Deployment Status Notification',
-            body: 'Congratulations...The build process was successful. Your changes have been successfully integrated and deployed.'
+            body: 'Congratulations...The build process was successful. Your changes have been successfully integrated and deployed.',
+            attachmentsPattern: 'logs/*.log'
         }
         failure {
              mail to: 'gaaaargi0809@gmail.com',
              subject: 'Continuous Integration and Deployment Status Notification',
-             body: 'Build Failed.....Unfortunately, the build process encountered some issues and failed. Please review the logs for more details.'
+             body: 'Build Failed.....Unfortunately, the build process encountered some issues and failed. Please review the logs for more details.',
+             attachmentsPattern: 'logs/*.log'
         }
     }
 }
