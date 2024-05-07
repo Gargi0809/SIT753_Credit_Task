@@ -20,14 +20,14 @@ pipeline {
                 success {
                     mail to:'gaaaargi0809@gmail.com',
                     subject: 'Continuous Integration and Deployment Status Notification - Test Stage Success',
-                    body: 'Unit and integration tests stage was successful.'
-                    attach "logs/*.log"
+                    body: 'Unit and integration tests stage was successful.',
+                    emailext attachLog: true
                 }
                 failure {
                      mail to: 'gaaaargi0809@gmail.com',
                      subject: 'Continuous Integration and Deployment Status Notification - Test Stage Failure',
-                     body: 'Unit and integration tests stage failed. Please review the logs for more details.'
-                     attach "logs/*.log"
+                     body: 'Unit and integration tests stage failed. Please review the logs for more details.',
+                     emailext attachLog: true
                 }
             }
         }
@@ -50,14 +50,14 @@ pipeline {
                 success {
                     mail to:'gaaaargi0809@gmail.com',
                     subject: 'Continuous Integration and Deployment Status Notification - Security Scan Stage Success',
-                    body: 'Security scan stage was successful.'
-                    attach "logs/*.log"
+                    body: 'Security scan stage was successful.',
+                    emailext attachLog: true
                 }
                 failure {
                      mail to: 'gaaaargi0809@gmail.com',
                      subject: 'Continuous Integration and Deployment Status Notification - Security Scan Stage Failure',
-                     body: 'Security scan stage failed. Please review the logs for more details.'
-                     attach "logs/*.log"
+                     body: 'Security scan stage failed. Please review the logs for more details.',
+                     emailext attachLog: true
                 }
             }
         }
@@ -91,14 +91,14 @@ pipeline {
         success {
             mail to:'gaaaargi0809@gmail.com',
             subject: 'Continuous Integration and Deployment Status Notification',
-            body: 'Congratulations...The build process was successful. Your changes have been successfully integrated and deployed.'
-            attach "logs/*.log"
+            body: 'Congratulations...The build process was successful. Your changes have been successfully integrated and deployed.',
+            emailext attachLog: true
         }
         failure {
              mail to: 'gaaaargi0809@gmail.com',
              subject: 'Continuous Integration and Deployment Status Notification',
-             body: 'Build Failed.....Unfortunately, the build process encountered some issues and failed. Please review the logs for more details.'
-             attach "logs/*.log"
+             body: 'Build Failed.....Unfortunately, the build process encountered some issues and failed. Please review the logs for more details.',
+            emailext attachLog: true
         }
     }
 }
