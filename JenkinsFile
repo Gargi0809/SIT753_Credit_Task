@@ -103,11 +103,13 @@ pipeline {
     }
     
     post {
-    always {
-        emailext attachLog: true,
-                 body: 'Pipeline ${currentBuild.result}',
-                 subject: 'Pipeline Notification',
-                 to: 'gaaaargi0809@gmail.com'
+        always {
+            // Send email notification without using nohup
+            emailext attachLog: true,
+                     body: 'Pipeline ${currentBuild.result}',
+                     subject: 'Pipeline Notification',
+                     to: 'gaaaargi0809@gmail.com'
+        }
     }
 }
 
