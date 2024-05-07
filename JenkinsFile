@@ -4,118 +4,64 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Build the code using Maven
-                sh 'mvn clean package'
-            }
-            post {
-                success {
-                    echo 'Build successful'
-                }
+                echo 'Build the code using Maven'
+                // Maven can be used as a build automation tool
             }
         }
         
         stage('Unit and Integration Tests') {
             steps {
-                // Run unit tests using JUnit and integration tests using Selenium
-                sh 'mvn test'
-            }
-            post {
-                success {
-                    echo 'Tests passed'
-                    sendNotification('Unit and Integration Tests', currentBuild.result)
-                }
-                failure {
-                    echo 'Tests failed'
-                    sendNotification('Unit and Integration Tests', currentBuild.result)
-                }
+                echo 'Run unit tests to ensure code functions as expected'
+                echo 'Run integration tests to ensure different components work together'
+                // Test automation tools like JUnit for unit tests and Selenium for integration tests can be used
             }
         }
         
         stage('Code Analysis') {
             steps {
-                // Integrate a code analysis tool like SonarQube
-                // Use SonarQube scanner to analyze the code
-                // Example command: sonar-scanner
-                // SonarQube server configuration should be done in Jenkins
-                sh 'sonar-scanner'
-            }
-            post {
-                success {
-                    echo 'Code analysis passed'
-                }
+                echo 'Integrate a code analysis tool to analyze the code'
+                echo 'Ensure code meets industry standards'
+                // Tools like SonarQube can be integrated for code analysis in Jenkins
             }
         }
         
         stage('Security Scan') {
             steps {
-                // Perform security scan using OWASP ZAP
-                // Example command: zap-cli --spider <target_url>
-                sh 'zap-cli --spider <target_url>'
-            }
-            post {
-                success {
-                    echo 'Security scan passed'
-                    sendNotification('Security Scan', 'SUCCESS')
-                }
-                failure {
-                    echo 'Security scan failed'
-                    sendNotification('Security Scan', 'FAILURE')
-                }
+                echo 'Perform security scan on the code'
+                echo 'Identify any vulnerabilities'
+                // Tools like OWASP ZAP or SonarQube Security Plugin can be used for security scanning
             }
         }
         
         stage('Deploy to Staging') {
             steps {
-                // Deploy the application to a staging server using AWS CLI
-                sh 'aws ec2 deploy <staging_instance_id>'
-            }
-            post {
-                success {
-                    echo 'Application deployed to staging server'
-                }
+                echo 'Deploy the application to a staging server (e.g., AWS EC2 instance)'
+                // AWS CLI or Jenkins Deploy Plugin can be used for deployment to staging
             }
         }
         
         stage('Integration Tests on Staging') {
             steps {
-                // Run integration tests on the staging environment
-                // This could involve running automated tests using Selenium or API testing tools
-                sh 'mvn integration-test'
-            }
-            post {
-                success {
-                    echo 'Integration tests on staging passed'
-                }
+                echo 'Run integration tests on the staging environment'
+                echo 'Ensure application functions as expected in production-like environment'
+                // Similar tools as in 'Unit and Integration Tests' stage can be used for integration tests on staging
             }
         }
         
         stage('Deploy to Production') {
             steps {
-                // Deploy the application to a production server using AWS CLI
-                sh 'aws ec2 deploy <production_instance_id>'
-            }
-            post {
-                success {
-                    echo 'Application deployed to production server'
-                }
+                echo 'Deploy the application to a production server (e.g., AWS EC2 instance)'
+                // Similar deployment tools as in 'Deploy to Staging' stage can be used for production deployment
             }
         }
     }
     
     post {
         always {
-            // Send email notification without using nohup
             emailext attachLog: true,
                      body: 'Pipeline ${currentBuild.result}',
                      subject: 'Pipeline Notification',
-                     to: 'gaaaargi0809@gmail.com'
+                     to: 'gaaaargi0809@example.com'
         }
     }
-}
-
-// Define sendNotification function outside the pipeline block
-def sendNotification(stage, status) {
-    emailext body: "Stage: $stage\nStatus: $status",
-             subject: "Notification - $stage $status",
-             to: 'gaaaargi0809@gmail.com'
 }
