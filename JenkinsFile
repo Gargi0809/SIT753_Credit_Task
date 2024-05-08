@@ -34,7 +34,6 @@ pipeline {
             }
         }
 
-        // Remaining stages are similar, you can update them accordingly
         stage('Stage 3: Code Analysis') {
             steps {
                 // Integrate a code analysis tool like SonarQube
