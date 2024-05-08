@@ -92,7 +92,7 @@ pipeline {
                 echo 'Deploying the application to production server using AWS CLI'
                 // Replace this echo command with the actual build command
 
-                //The job should be triggered with a short delay of 2 minutes after a new commit is pushed to the GitHub repository..
+
             }
         }
     }
